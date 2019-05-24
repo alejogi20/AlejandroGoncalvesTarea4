@@ -18,8 +18,26 @@ public class Destination {
         this.costPerPassenger = valuePerPassenger;
     }
     
+    /* the bus manager simulates the sitting of the passengers on the Buses, one by one.
+    *  If the Bus1 goes full, then it starts to seat passengers on the second bus and so on...
+    *
+    */
     public void busManager(int newPassengers){
-        if(this.getBus1().getCapacity() > 0 && newPassengers <= this.getBus1().getCapacity()) this.getBus1().setCapacity(this.getBus1().getCapacity() - newPassengers);
+        
+        while(newPassengers > 0){
+            
+            if(this.getBus1().getCapacity() > 0){
+                this.getBus1().setCapacity(this.getBus1().getCapacity() - 1);
+                newPassengers--;
+            }else if(this.getBus2().getCapacity() > 0){
+                this.getBus2().setCapacity(this.getBus1().getCapacity() - 1);
+                newPassengers--;
+            }else {
+                this.getBus3().setCapacity(this.getBus1().getCapacity() - 1);
+                newPassengers--;
+            }
+            
+        }
         
     }
     public int availableVacancies(){
