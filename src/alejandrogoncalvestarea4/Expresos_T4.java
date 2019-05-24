@@ -49,7 +49,7 @@ public class Expresos_T4 {
     
     public void destinationAvailability(Client client){
         switch(client.getDestination()){
-            case "V": if(this.valencia.availableVacancies() == client.getNumberOfPassengers())  this.billing(client, this.getValencia());
+            case "V": if(this.valencia.availableVacancies() >= client.getNumberOfPassengers())  this.billing(client, this.getValencia());
                       break;
                       
             case "P": break;
@@ -62,11 +62,12 @@ public class Expresos_T4 {
         
     }
     
-    
+     
     public void billing(Client client, Destination destination){
         
         destination.setClientsPerDestiny(destination.getClientsPerDestiny()+ 1);
-        
+        destination.busManager(client.getNumberOfPassengers());
+        destination.
     }
     
     public int totalAvailableVacancies(){
