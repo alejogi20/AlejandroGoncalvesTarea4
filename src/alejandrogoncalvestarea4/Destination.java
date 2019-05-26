@@ -7,7 +7,7 @@ package alejandrogoncalvestarea4;
  */
 public class Destination {
     private String name, code;
-    private int costPerPassenger, numClients, totalAmount, totalDiscounts;
+    private int costPerPassenger, numClients, totalAmount, totalDiscounts, totalNetAmount;
     private Vehicle bus1 = new Vehicle(10);
     private Vehicle bus2 = new Vehicle(10);
     private Vehicle bus3 = new Vehicle(10);
@@ -27,14 +27,17 @@ public class Destination {
         while(newPassengers > 0){
             
             if(this.getBus1().getCapacity() > 0){
+                
                 this.getBus1().setCapacity(this.getBus1().getCapacity() - 1);
-                newPassengers--;
+                newPassengers--; 
             }else if(this.getBus2().getCapacity() > 0){
-                this.getBus2().setCapacity(this.getBus1().getCapacity() - 1);
-                newPassengers--;
+                
+                this.getBus2().setCapacity(this.getBus2().getCapacity() - 1);
+                newPassengers--; 
             }else {
-                this.getBus3().setCapacity(this.getBus1().getCapacity() - 1);
-                newPassengers--;
+                
+                this.getBus3().setCapacity(this.getBus3().getCapacity() - 1);
+                newPassengers--; 
             }
             
         }
@@ -101,6 +104,16 @@ public class Destination {
     public void setTotalDiscounts(int totalDiscounts) {
         this.totalDiscounts = totalDiscounts;
     }
+
+    public int getTotalNetAmount() {
+        return totalNetAmount;
+    }
+
+    public void setTotalNetAmount(int totalNetAmount) {
+        this.totalNetAmount = totalNetAmount;
+    }
+    
+    
 
     public Vehicle getBus1() {
         return bus1;
