@@ -7,8 +7,9 @@ package alejandrogoncalvestarea4;
  */
 public class Client {
     
-    private int idNumber,numberOfPassengers;
+    private int idNumber,numberOfPassengers, grossAmount, discountAmount, taxAmount, netAmount;
     private String destination;
+    private boolean freeBuy;
     
     public Client(int idNumber, int numberOfPassengers, String destination) {
         this.idNumber = idNumber;
@@ -32,6 +33,48 @@ public class Client {
         this.numberOfPassengers = numberOfPassengers;
     }
 
+    public int getGrossAmount() {
+        return grossAmount;
+    }
+
+    public void setGrossAmount(int grossAmount) {
+        this.grossAmount = grossAmount;
+    }
+
+    public int getDiscountAmount() {
+        return discountAmount;
+    }
+
+    public void setDiscountAmount(int discountAmount) {
+        this.discountAmount = discountAmount;
+    }
+
+    public int getTaxAmount() {
+        return taxAmount;
+    }
+
+    public void setTaxAmount(int taxAmount) {
+        this.taxAmount = taxAmount;
+    }
+
+    public int getNetAmount() {
+        return netAmount;
+    }
+
+    public void setNetAmount(int netAmount) {
+        this.netAmount = netAmount;
+    }
+
+    public boolean isFreeBuy() {
+        return freeBuy;
+    }
+
+    public void setFreeBuy(boolean freeBuy) {
+        this.freeBuy = freeBuy;
+    }
+    
+    
+    
     public String getDestination() {
         return destination;
     }

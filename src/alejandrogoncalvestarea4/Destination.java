@@ -7,7 +7,7 @@ package alejandrogoncalvestarea4;
  */
 public class Destination {
     private String name, code;
-    private int costPerPassenger, ClientsPerDestiny;
+    private int costPerPassenger, numClients, totalAmount, totalDiscounts;
     private Vehicle bus1 = new Vehicle(10);
     private Vehicle bus2 = new Vehicle(10);
     private Vehicle bus3 = new Vehicle(10);
@@ -40,6 +40,8 @@ public class Destination {
         }
         
     }
+    
+    
     public int availableVacancies(){
         return this.bus1.getCapacity() + this.bus2.getCapacity() + this.bus3.getCapacity();
     }
@@ -76,15 +78,30 @@ public class Destination {
         this.costPerPassenger = costPerPassenger;
     }
 
-    public int getClientsPerDestiny() {
-        return ClientsPerDestiny;
+    public int getNumClients() {
+        return numClients;
     }
 
-    public void setClientsPerDestiny(int ClientsPerDestiny) {
-        this.ClientsPerDestiny = ClientsPerDestiny;
+    public void setNumClients(int numClients) {
+        this.numClients = numClients;
     }
 
-    
+    public int getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(int totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public int getTotalDiscounts() {
+        return totalDiscounts;
+    }
+
+    public void setTotalDiscounts(int totalDiscounts) {
+        this.totalDiscounts = totalDiscounts;
+    }
+
     public Vehicle getBus1() {
         return bus1;
     }

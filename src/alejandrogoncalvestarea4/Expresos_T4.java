@@ -3,12 +3,13 @@ package alejandrogoncalvestarea4;
 
 import java.util.Scanner;
 
+
 /**
  *
  * @author Alejandro Goncalves
  */
 public class Expresos_T4 {
-    private int numberOfClients;
+    private int numberOfClients, totalAmount;
     private Destination valencia = new Destination( "Valencia", "V", 12500);
     private Destination puerto_La_Cruz = new Destination( "Puerto La Cruz", "P", 16000);
     private Destination barquisimeto = new Destination( "Barquisimeto", "B", 18500);
@@ -26,7 +27,7 @@ public class Expresos_T4 {
         
         while(this.totalAvailableVacancies() > 0){
             
-            this.numberOfClients++;
+            
             
             System.out.println("Hello client number " + this.numberOfClients );
             System.out.println("Enter your ID number please: ");
@@ -39,25 +40,100 @@ public class Expresos_T4 {
             System.out.println("Enter " + barquisimeto.getCode() + " for " + barquisimeto.getName());
             destination = sc.next();
             
+            System.out.println("============================================================");
+            
             Client client = new Client(idNumber, passengers, destination);
             
+            
             this.destinationAvailability(client);
+            
+            System.out.println(" your Identification number is: " + client.getIdNumber());
+            System.out.println("Amount of tickets/passengers you are buying: " + client.getNumberOfPassengers());
+            
+            switch(client.getDestination()){
+                case "Valencia": 
+                      System.out.println("Your requested destination is Valencia of code V.");
+                      break;
+                 
+                case "Barquisimeto":
+                      System.out.println("Your requested destination is Barquisimeto of code B.");
+                      break;
+                      
+                case "Puerto La Cruz":
+                    System.out.println("Your requested destination is Puerto La Cruz of code P.");
+                    break;
+            }
+            
+            
+            if(client.isFreeBuy()){
+                System.out.println("Congratulations, you are a perfect client and for that your buy is totally free!!");
+                System.out.println("Thanks! next client...");
+            }else{
+                
+                System.out.println("Gross Amount to pay: " + client.getGrossAmount());
+                System.out.println("Discount amount: " + client.getDiscountAmount());
+                System.out.println("Taxes amount (IVA): " + client.getTaxAmount());
+                System.out.println("Net Amount to pay: " + client.getNetAmount());
+            }
+            
+            
+            System.out.println("=================================================");
+            
         }
         
     }
     
     
     public void destinationAvailability(Client client){
+        
         switch(client.getDestination()){
-            case "V": if(this.valencia.availableVacancies() >= client.getNumberOfPassengers())  this.billing(client, this.getValencia());
-                      break;
+            
+            case "V": 
+                
+                if(this.valencia.availableVacancies() >= client.getNumberOfPassengers()){
+                    this.billing(client, this.getValencia());
+                    this.numberOfClients++;
+                }
+                else {
+                    
+                    System.out.println("There are not enough tickets for Valencia.");
+                    System.out.println("Available tickets for Valencia: " + this.valencia.availableVacancies());
+                }
+                     
+                break;
                       
-            case "P": break;
+            case "P": 
+                
+                if(this.puerto_La_Cruz.availableVacancies() >= client.getNumberOfPassengers()){
+                    this.billing(client, this.getPuerto_La_Cruz());
+                    this.numberOfClients++;
+                }
+                else {
+                    
+                    System.out.println("There are not enough available tickets for Puerto La Cruz.");
+                    System.out.println("Available tickets for Valencia: " + this.puerto_La_Cruz.availableVacancies());
+                }
+                
+                break;
                         
-            case "B": break;
+            case "B": 
+                
+                if(this.barquisimeto.availableVacancies() >= client.getNumberOfPassengers()){
+                    
+                    this.billing(client, this.getBarquisimeto());
+                    this.numberOfClients++;
+                }
+                else {
+                    
+                    System.out.println("There are not enough available tickets for Barquisimeto.");
+                    System.out.println("Available tickets: " + this.barquisimeto.availableVacancies());
+                }
+                
+                break;
                 
             default: 
-                    break;
+                
+                break;
         }
         
     }
@@ -65,9 +141,60 @@ public class Expresos_T4 {
      
     public void billing(Client client, Destination destination){
         
-        destination.setClientsPerDestiny(destination.getClientsPerDestiny()+ 1);
+        destination.setNumClients(destination.getNumClients()+ 1);
         destination.busManager(client.getNumberOfPassengers());
-        destination.
+        this.calculateAmounts(destination.getCostPerPassenger(),  client);
+    }
+    
+    public void calculateAmounts(int costPerPassenger, Client client){
+        
+        
+        
+        int divisor = 1;
+        int sum = 0;
+        
+        while(divisor < this.getNumberOfClients()){
+            
+            sum += divisor; 
+            
+            if(this.getNumberOfClients() % divisor == 0 && sum == this.getNumberOfClients() ){
+                client.setFreeBuy(true);
+            }  
+            
+        }
+        
+        if(!client.isFreeBuy()){
+            if(client.getNumberOfPassengers() > 4) {
+                
+                client.setGrossAmount(costPerPassenger * client.getNumberOfPassengers());
+                
+                client.setDiscountAmount(client.getGrossAmount() * (20/100));
+                 
+                client.setTaxAmount((client.getGrossAmount() - client.getDiscountAmount())* (12/100));
+                
+                client.setNetAmount(client.getGrossAmount() - client.getDiscountAmount() + client.getTaxAmount());
+            }else{
+                
+                client.setGrossAmount(costPerPassenger * client.getNumberOfPassengers());
+                
+                client.setDiscountAmount(0);
+                 
+                client.setTaxAmount((client.getGrossAmount() * (12/100)));
+                
+                client.setNetAmount(client.getGrossAmount()  + client.getTaxAmount());
+            }
+            
+        }else{
+            
+            client.setGrossAmount(0);
+                
+                client.setDiscountAmount(0);
+                 
+                client.setTaxAmount(0);
+                
+                client.setNetAmount(0);
+        }
+        
     }
     
     public int totalAvailableVacancies(){
@@ -104,6 +231,14 @@ public class Expresos_T4 {
 
     public void setNumberOfClients(int numberOfClients) {
         this.numberOfClients = numberOfClients;
+    }
+
+    public int getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(int totalAmount) {
+        this.totalAmount = totalAmount;
     }
     
     
